@@ -6,6 +6,7 @@ pub enum Root {
     One(f64),
     Two(f64, f64),
 }
+
 pub fn quad(a: f64, b: f64, c: f64) -> Root {
     let delta = b * b - 4.0 * a * c; // discriminant (delta)
 
@@ -24,15 +25,17 @@ pub fn quad(a: f64, b: f64, c: f64) -> Root {
     };
 }
 
-pub fn parse(inp: &str) -> [f64; 4] {
+pub fn parse(inp: &str) -> [f64; 3] {
     let inp = &*inp.replace(" ", ""); // remove whitespaces from the string so the regex works
     let re = Regex::new(r"[+-]?(\d+)").unwrap();
-    let factors: [f64; 4] = re
+    let mut factors: Vec<f64> = re
         .find_iter(inp)
         .filter_map(|n| n.as_str().parse().ok())
-        .collect::<Vec<f64>>()
-        .try_into()
-        .expect("this isn't a quadratic equation");
+        .collect::<Vec<f64>>();
+
+    factors.remove(1); // removes the exponent of the first term
+
+    let factors: [f64; 3] = factors.try_into().expect("this isn't a quadratic equation");
 
     return factors;
 }
