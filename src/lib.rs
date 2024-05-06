@@ -68,6 +68,6 @@ mod tests {
     #[test]
     fn parser() {
         let parsed = parse("3x^2 - 11x - 35");
-        assert_eq!(parsed, [3.0, 2.0, -11.0, -35.0]);
+        assert_eq!(parsed, [3.0, -11.0, -35.0]);
     }
 }
